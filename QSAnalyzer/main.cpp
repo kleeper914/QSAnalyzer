@@ -1,10 +1,11 @@
-#include "widget.h"
-#include <fftw3.h>
+#include <Widget/widget.h>
+#include <FFTW3/fftw3.h>
 #include <stdlib.h>
 #include <iostream>
 #include <QApplication>
 #include <cassert>
-#include "qpskmodulator.h"
+#include <QCustomPlot/qcustomplot.h>
+#include <DigitalModulator/qpskmodulator.h>
 
 #define N 5
 
