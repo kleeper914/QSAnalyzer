@@ -18,6 +18,7 @@ using std::vector;
 using std::string;
 using std::ifstream;
 using std::istringstream;
+using std::pair;
 
 typedef std::complex<double> Complex;
 
@@ -42,6 +43,7 @@ public:
     void timeDomainAnalysis(Complex& mean, double& power, double& rms) const;
     void frequencyDomainAnalysis(vector<double>& mag, vector<double>& magDB, vector<double>& psd, vector<double>& psdDB, double refLevel = 1.0) const;
     //高级分析
+    void constellationAnalysis(vector<pair<double, double>>& iqPoints, vector<double>& phase, vector<double>& magnitude, int symbolLength = 1) const;
     vector<vector<double>> computeSpectrogram(int windowSize = 256, int overlap = 128) const;
     //数据读取
     static vector<double> loadSignalFromFile(const string& filename);

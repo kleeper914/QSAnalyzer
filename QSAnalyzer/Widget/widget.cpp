@@ -189,3 +189,31 @@ void Widget::on_Power_Spectrum_clicked()
     }
 }
 
+
+void Widget::on_Constellation_Diagram_clicked()
+{
+    if(!analyzer_) {
+        QMessageBox::warning(this, "Warning", "Please open and load the signal file first");
+        return;
+    }
+    if(!analyzer_->getIsComplex()) {
+        QMessageBox::warning(this, "Warning", "Only Complex Signal can plot constellation diagram");
+        return;
+    }
+
+    try {
+        const vector<Complex>& signal = analyzer_->getComplexSignal();
+        const int N = static_cast<int>(signal.size());
+        vector<pair<double, double>> iqPoints(N);
+        vector<double> phase(N);
+        vector<double> magnitude(N);
+        analyzer_->constellationAnalysis(iqPoints, phase, magnitude);
+        SignalPlot* plotter = new SignalPlot(this);
+        plotter->plotConstellationDiagram(iqPoints);
+        plotter->exec();
+    }
+    catch(const std::exception& e) {
+        QMessageBox::critical(this, "Error", e.what());
+    }
+}
+

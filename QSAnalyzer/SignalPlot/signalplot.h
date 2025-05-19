@@ -16,6 +16,7 @@
 
 using std::vector;
 using std::string;
+using std::pair;
 
 typedef std::complex<double> Complex;
 
@@ -26,7 +27,8 @@ public:
     enum PlotType {
         TimeDomain,
         Amplitude,
-        PSD
+        PSD,
+        ConstellationDiagram
     };
 
     struct SpectrumData {
@@ -44,6 +46,7 @@ public:
     void plotTimeDomain(double sampleRate, const vector<double>& real, const vector<double>& imag = {});
     void plotAmplitudeSpectrum(bool isLogScale = false, bool isDB = false);
     void plotPSD(bool isLogScale = false, bool isDB = false);
+    void plotConstellationDiagram(const vector<pair<double, double>>& iqPoints);
     //get方法
     bool getfftShiftEnabled() const { return fftShiftEnabled; }
 

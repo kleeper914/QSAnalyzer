@@ -311,6 +311,39 @@ void SignalPlot::plotPSD(bool isLogScale, bool isDB) {
     m_plot->replot(QCustomPlot::rpQueuedRefresh);   //队列刷新提升性能
 }
 
+/*
+@brief: 绘制星座图
+@param: iqPoints - 复信号的IQ信号点
+*/
+void SignalPlot::plotConstellationDiagram(const vector<pair<double, double> > &iqPoints) {
+    if(iqPoints.empty()) {
+        QMessageBox::warning(this, "Plot error", "iqPoints data is empty");
+        return;
+    }
+
+    currentPlotType = ConstellationDiagram;
+
+    const int N = static_cast<int>(iqPoints.size());
+    QVector<double> I, Q;
+    I.resize(N);    Q.resize(N);
+    for(int i = 0; i < N; i++) {
+        I[i] = iqPoints[i].first;
+        Q[i] = iqPoints[i].second;
+    }
+
+    clearPlot();
+    initPlot("In-phase (I)", "Quadrature-phase (Q)");
+
+    //绘制散点图
+    QCPGraph* graph = m_plot->addGraph();
+    graph->setData(I, Q);
+    graph->setLineStyle(QCPGraph::lsNone);
+    graph->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 5));
+
+    m_plot->rescaleAxes();
+    m_plot->replot();
+}
+
 /*-------------------Slot函数实现--------------------*/
 void SignalPlot::showContextMenu(const QPoint &pos) {
     QMenu menu(m_plot);

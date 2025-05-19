@@ -466,3 +466,34 @@ void Analyzer::frequencyDomainAnalysis(vector<double> &mag, vector<double>& magD
         psdDB[i] = std::max(safeLog10(psd[i], refSquare, true), MIN_DB_VALUE);
     }
 }
+
+/*
+@brief: 星座图分析(仅对复数信号有效)
+@param[out]: iqPoints - 返回所有符号点的IQ数据
+@param[out]: phase - 每个符号点的相位(弧度)
+@param[out]: magnitude - 每个符号点的幅度
+@param symbolLength - 符号长度(默认为1, 表示无符号分隔)
+@throws logic_error 如果信号不是复数类型
+*/
+void Analyzer::constellationAnalysis(vector<pair<double, double> > &iqPoints, vector<double> &phase, vector<double> &magnitude, int symbolLength) const {
+    if(!isComplex_) {
+        throw std::logic_error("Constellation analysis requires complex signal");
+    }
+
+    const auto& signal = complexSignal_;
+    const int N = static_cast<int>(signal.size());
+    //清空输出容器
+    iqPoints.clear();
+    phase.clear();
+    magnitude.clear();
+
+    //计算符号IQ值
+    for(int i = 0; i < N; i += symbolLength) {
+        const Complex& point = signal[i];
+        const double I = point.real();
+        const double Q = point.imag();
+        iqPoints.emplace_back(I, Q);
+        phase.push_back(std::arg(point));
+        magnitude.push_back(std::abs(point));
+    }
+}

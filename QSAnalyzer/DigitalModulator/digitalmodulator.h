@@ -56,9 +56,9 @@ protected:
     int filterSpan_;                   //滤波器跨度(符号数)
 
 private:
-    vector<int> bits_;              //原始比特流
-    vector<Complex> symbols_;       //调制符号
-    vector<Complex> modulateSignal_;     //成形后信号
+    vector<int> bits_;                  //原始比特流
+    vector<Complex> symbols_;           //调制符号
+    vector<Complex> modulateSignal_;    //成形后信号
 };
 
 #endif // DIGITALMODULATOR_H

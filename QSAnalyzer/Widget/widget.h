@@ -38,6 +38,8 @@ private slots:
 
     void on_Power_Spectrum_clicked();
 
+    void on_Constellation_Diagram_clicked();
+
 private:
     Ui::Widget *ui;
     Analyzer* analyzer_;
